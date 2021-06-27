@@ -1,0 +1,9 @@
+CREATE DATABASE PHPForm;
+
+USE PHPForm;
+
+CREATE TABLE pessoa(
+   Nome VARCHAR(128),
+   Idade TINYINT
+);
+
