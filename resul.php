@@ -1,29 +1,26 @@
 <?php
-	if($_POST)
+	function resul($name, $age)
 	{
-		$name = $_POST['name'];
-		$age = $_POST['age'];
-		$conn = new mysqli($_SERVER['HTTP_HOST'], "root", "");	
+		$conn = mysqli_connect($_SERVER['HTTP_HOST'], "root", "");
 
 		if($conn->connect_error)
 		{
-			die("Erro: " . $conn->connect_error);
+			return "Ocorreu um erro: " . $conn->connect_error;
 		}
-		mysqli_query($conn, "USE PHPForm");
-
-		if(mysqli_query($conn, "INSERT INTO pessoa VALUES('$name', $age)")===TRUE)
-		{
-			echo "Formulário enviado.";
+		else if($_POST == false)
+		{		
+			mysqli_close($conn);
+			return "Formulário em branco.";
 		}
 		else
 		{
-			echo "Erro ao tentar enviar formulário.";
-		}
-		mysqli_close($conn);
-	}
-	else
-	{
-		echo "Formulário em branco.";
-	}
-?>
+			mysqli_query($conn, "USE PHPForm");
+			mysqli_query($conn, "INSERT INTO pessoa VALUES('$name', $age)");
+			mysqli_close($conn);
 
+			return "Formulário enviado.";
+		}
+	}
+
+	echo resul($_POST['name'], $_POST['age']);
+?>
